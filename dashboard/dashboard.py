@@ -84,7 +84,7 @@ start_hour, end_hour = values
 fig = plt.figure(figsize=(16, 8))
 
 # Membuat plot garis menggunakan Seaborn untuk menampilkan total penyewaan sepeda per jam dalam rentang waktu yang ditentukan
-ax = sns.lineplot(data=total_rent_per_hour_df[(main_df['hr'] >= start_hour) & (main_df['hr'] <= end_hour)], x="hr", y="count", color='orange', errorbar=None, marker="o")
+ax = sns.lineplot(data=total_rent_per_hour_df[(total_rent_per_hour_df['hr'] >= start_hour) & (total_rent_per_hour_df['hr'] <= end_hour)], x="hr", y="count", color='orange', errorbar=None, marker="o")
 
 # Menambahkan label sumbu x dan y, judul plot, serta grid
 plt.xlabel("Jam")
