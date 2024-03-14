@@ -13,6 +13,10 @@ all_df = pd.read_csv("dashboard/all.csv")
 # all_df = pd.read_csv("all.csv")
 all_df.head()
 
+# Fungsi untuk menghitung total penyewaan sepeda bulanan tahun 2011 dan 2012
+def create_monthly_count_per_year(main_df) :
+    return main_df.groupby(['year', 'month'])['count'].sum().reset_index()
+
 # Fungsi untuk menghitung total penyewaan sepeda per jam dari dataframe utama
 def create_total_rent_per_hour(main_df) :
     return main_df.groupby('hr')['count'].sum().reset_index()
@@ -45,14 +49,17 @@ with st.sidebar:
 main_df = all_df[(all_df['dateday'] >= str(start_date)) & 
                  (all_df['dateday'] <= str(end_date))]
 
+# Menghitung total penyewaan sepeda bulanan tahun 2011 dan 2012 dari dataframe utama yang diperbarui
+monthly_count_per_year_df = create_monthly_count_per_year(main_df)
+
+# Menghitung total penyewaan sepeda per jam dari dataframe utama yang diperbarui
+total_rent_per_hour_df = create_total_rent_per_hour(main_df)
+
 # Menghitung rata-rata jumlah penyewaan sepeda berdasarkan kondisi cuaca dari dataframe utama yang diperbarui
 weather_con_df = create_weather_con(main_df)
 
 # Menghitung penggunaan sepeda berdasarkan musim dari dataframe utama yang diperbarui
 seasonal_usage_df = create_seasonal_usage(main_df)
-
-# Menghitung total penyewaan sepeda per jam dari dataframe utama yang diperbarui
-total_rent_per_hour_df = create_total_rent_per_hour(main_df)
 
 
 # Pembuatan Dashboard
@@ -72,6 +79,40 @@ with col2:
 
 with col3:
     st.metric("Casual Users", value=main_df['casual'].sum())
+
+# Menetapkan data yang digunakan
+monthly_count_per_year_df = all_df.groupby(['year', 'month'])['count'].sum().reset_index()
+
+# Membagi data berdasarkan tahun
+df_2011 = monthly_count_per_year_df[monthly_count_per_year_df['year'] == '2011']
+df_2012 = monthly_count_per_year_df[monthly_count_per_year_df['year'] == '2012']
+
+# Melakukan plot data
+plt.figure(figsize=(10, 6))
+plt.plot(df_2011['month'], df_2011['count'], marker="o", label='2011', color='red')
+plt.plot(df_2012['month'], df_2012['count'], marker="o", label='2012', color='blue')
+
+# Memberi label pada sumbu x dan y
+plt.xlabel('Month')
+plt.ylabel('Sum of Total Rental')
+
+# Memberikan judul pada plot
+plt.title('Monthly Bike Rentals Count for Each Year')
+
+# Menambahkan legend terhadap label yang telah didefinisikan
+plt.legend()
+
+# Mengaplikasikan grid pada plot
+plt.grid()
+
+# Menampilkan plot dalam aplikasi Streamlit
+st.pyplot()
+
+# Menampilkan plot
+plt.show()
+
+# Menambahkan Penjelasan
+st.write("d")
 
 # Menampilkan subjudul tentang total penyewaan sepeda berdasarkan pembagian jam
 st.subheader('Total Penyewaan Sepeda Berdasarkan Pembagian Jam')
