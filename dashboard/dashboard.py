@@ -81,35 +81,48 @@ with col3:
     st.metric("Casual Users", value=main_df['casual'].sum())
 
 
-# Menggunakan fungsi untuk membuat DataFrame
-monthly_count_per_year_df = create_monthly_count_per_year(all_df)
+# Grafik Line Chart jumlah total peminjaman sepeda bulanan tiap tahunnya
+st.subheader('Jumlah total peminjaman sepeda bulanan tiap tahunnya')
 
-# Membagi data berdasarkan tahun
-df_2011 = monthly_count_per_year_df[monthly_count_per_year_df['year'] == '2011']
-df_2012 = monthly_count_per_year_df[monthly_count_per_year_df['year'] == '2012']
+df_2011 = monthly_rental_count_for_years_df[monthly_rental_count_for_years_df['year'] == '2011']
+df_2012 = monthly_rental_count_for_years_df[monthly_rental_count_for_years_df['year'] == '2012']
 
-# Subheader untuk judul
-st.subheader('Tren Total Penyewaan Sepeda Bulanan Pada Tahun 2011 Dan Tahun 2012')
+col1, col2, col3 = st.columns(3)
+with col1:
+    formatted_sum_total_count_2011 = "{:,.0f}".format(df_2011['count'].sum()).replace(',', '.')
+    st.metric('Total peminjaman 2011', formatted_sum_total_count_2011)
 
-# Melakukan plot data
-fig = plt.figure(figsize=(10, 6))
-plt.plot(df_2011['month'], df_2011['count'], marker="o", label='2011', color='red')
-plt.plot(df_2012['month'], df_2012['count'], marker="o", label='2012', color='blue')
+with col2:
+    formatted_sum_total_count_2012 = "{:,.0f}".format(df_2012['count'].sum()).replace(',', '.')
+    st.metric('Total peminjaman 2012', formatted_sum_total_count_2012)
 
-# Memberi label pada sumbu x dan y
-plt.xlabel('Month')
-plt.ylabel('Sum of Total Rental')
+with col3:
+    formatted_sum_total_count = "{:,.0f}".format(monthly_rental_count_for_years_df['count'].sum()).replace(',', '.')
+    st.metric('Total peminjaman Seluruhnya', formatted_sum_total_count)
 
-# Memberikan judul pada plot
-plt.title('Monthly Bike Rentals Count for Each Year')
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(
+    df_2011['month'],
+    df_2011['count'],
+    marker="o",
+    label='2011',
+    color='orange'
+)
+ax.plot(
+    df_2012['month'],
+    df_2012['count'],
+    marker="o",
+    label='2012',
+    color='red'
+)
 
-# Menambahkan legend terhadap label yang telah didefinisikan
+plt.xlabel('Bulan')
+plt.ylabel('Jumlah Total Peminjaman')
+plt.xticks(rotation=30)
+plt.title('Jumlah Peminjaman Sepeda Bulanan untuk Setiap Tahun')
+plt.grid()
 plt.legend()
 
-# Mengaplikasikan grid pada plot
-plt.grid()
-
-# Menampilkan plot
 st.pyplot(fig)
 
 # Menampilkan subjudul tentang total penyewaan sepeda berdasarkan pembagian jam
