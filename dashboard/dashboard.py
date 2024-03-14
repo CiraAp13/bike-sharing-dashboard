@@ -88,31 +88,28 @@ df_2011 = monthly_count_per_year_df[monthly_count_per_year_df['year'] == '2011']
 df_2012 = monthly_count_per_year_df[monthly_count_per_year_df['year'] == '2012']
 
 # Melakukan plot data
-plt.figure(figsize=(10, 6))
-plt.plot(df_2011['month'], df_2011['count'], marker="o", label='2011', color='red')
-plt.plot(df_2012['month'], df_2012['count'], marker="o", label='2012', color='blue')
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(df_2011['month'], df_2011['count'], marker="o", label='2011', color='red')
+ax.plot(df_2012['month'], df_2012['count'], marker="o", label='2012', color='blue')
 
 # Memberi label pada sumbu x dan y
-plt.xlabel('Month')
-plt.ylabel('Sum of Total Rental')
+ax.set_xlabel('Month')
+ax.set_ylabel('Sum of Total Rental')
 
 # Memberikan judul pada plot
-plt.title('Monthly Bike Rentals Count for Each Year')
+ax.set_title('Monthly Bike Rentals Count for Each Year')
 
 # Menambahkan legend terhadap label yang telah didefinisikan
-plt.legend()
+ax.legend()
 
 # Mengaplikasikan grid pada plot
-plt.grid()
+ax.grid()
 
 # Menampilkan plot dalam aplikasi Streamlit
-st.pyplot()
+st.pyplot(fig)
 
 # Menampilkan plot
 plt.show()
-
-# Menambahkan Penjelasan
-st.write("d")
 
 # Menampilkan subjudul tentang total penyewaan sepeda berdasarkan pembagian jam
 st.subheader('Total Penyewaan Sepeda Berdasarkan Pembagian Jam')
