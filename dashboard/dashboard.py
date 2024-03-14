@@ -81,6 +81,9 @@ with col3:
     st.metric("Casual Users", value=main_df['casual'].sum())
 
 
+# Menghitung total peminjaman sepeda bulanan tiap tahunnya
+monthly_rental_count_for_years_df = all_df.groupby(['year', 'month'])['count'].sum().reset_index()
+
 # Grafik Line Chart jumlah total peminjaman sepeda bulanan tiap tahunnya
 st.subheader('Jumlah total peminjaman sepeda bulanan tiap tahunnya')
 
