@@ -9,8 +9,8 @@ import streamlit as st
 sns.set(style='dark')
 
 # Membaca file CSV dengan nama "all.csv" dan menyimpannya dalam dataframe all_df
-all_df = pd.read_csv("dashboard/all.csv")
-# all_df = pd.read_csv("all.csv")
+# all_df = pd.read_csv("dashboard/all.csv")
+all_df = pd.read_csv("all.csv")
 all_df.head()
 
 # Fungsi untuk menghitung total penyewaan sepeda per jam dari dataframe utama
@@ -32,8 +32,8 @@ max_date = pd.to_datetime(all_df['dateday']).dt.date.max()
 
 # Menampilkan widget tanggal pada sidebar Streamlit untuk memilih rentang waktu
 with st.sidebar:
-    st.image('dashboard/bicycle.png')
-    # st.image('bicycle.png')
+    # st.image('dashboard/bicycle.png')
+    st.image('bicycle.png')
     start_date, end_date = st.date_input(
         label='Rentang Waktu',
         min_value=min_date,
